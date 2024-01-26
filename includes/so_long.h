@@ -6,7 +6,7 @@
 /*   By: nsouchal <nsouchal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 10:28:58 by nsouchal          #+#    #+#             */
-/*   Updated: 2024/01/25 14:34:49 by nsouchal         ###   ########.fr       */
+/*   Updated: 2024/01/26 11:29:05 by nsouchal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,13 @@ typedef struct s_data
 	int		map_height;
 	int		pos_y;
 	int		pos_x;
+	int		item_collec;
+	int		item_to_coll;
 	t_img	image;
 }	t_data;
 
 void	init_data(t_data *data);
 int		on_keypress(int keycode, t_data *data);
 void	display_map(t_data *data);
-
+void	close_window(t_data *data);
 #endif

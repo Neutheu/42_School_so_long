@@ -6,7 +6,7 @@
 /*   By: nsouchal <nsouchal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 09:11:38 by nsouchal          #+#    #+#             */
-/*   Updated: 2024/01/25 15:15:52 by nsouchal         ###   ########.fr       */
+/*   Updated: 2024/01/26 11:31:45 by nsouchal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,8 @@ void	display_map(t_data *data)
 				image = data->image.img_closed_exit;
 			if (data->map[y][x] == 'C')
 				image = data->image.img_item;
-			if (!mlx_put_image_to_window(data->mlx_ptr, data->win_ptr,
-				image, x * data->image.img_size, y * data->image.img_size))
-					return ;
+			mlx_put_image_to_window(data->mlx_ptr, data->win_ptr,
+				image, x * data->image.img_size, y * data->image.img_size);
 			x++;
 		}
 		x = 0;
@@ -64,3 +63,9 @@ int	main(void)
 	// free(mlx_ptr);
 	return (0);
 }
+
+/*
+- pouvoir passer sur lexit avant de tout recup et donc modifier image
+- modifier image exit quand tout recup et modifier comportement exit
+- afficher le nombre de mouv dans terminal
+*/

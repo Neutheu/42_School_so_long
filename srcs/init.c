@@ -6,11 +6,31 @@
 /*   By: nsouchal <nsouchal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 14:17:23 by nsouchal          #+#    #+#             */
-/*   Updated: 2024/01/25 14:26:29 by nsouchal         ###   ########.fr       */
+/*   Updated: 2024/01/26 11:28:08 by nsouchal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/so_long.h"
+
+void	count_items(t_data *data)
+{
+	int	x;
+	int	y;
+
+	x = 0;
+	y = 0;
+	while (y < data->map_height)
+	{
+		while (data->map[y][x])
+		{
+			if (data->map[y][x] == 'C')
+				data->item_to_coll++;
+			x++;
+		}
+		x = 0;
+		y++;
+	}
+}
 
 char	*remove_newline(char *line)
 {
@@ -77,10 +97,13 @@ void	init_data(t_data *data)
 	if (!data->mlx_ptr)
 		return ;
 	data->image.img_size = 50;
+	data->item_collec = 0;
 	stock_map(data);
+	count_items(data);
 	data->win_ptr = mlx_new_window(data->mlx_ptr, data->image.img_size * data->map_width, data->image.img_size * data->map_height, "the burger quest");
 	if (!data->win_ptr)
 		return (free(data->mlx_ptr));
 	set_images(data);
 	mlx_hook(data->win_ptr, KeyPress, KeyPressMask, on_keypress, data);
+	mlx_hook(data->win_ptr, 17, 0, (void *) exit, 0);
 }
