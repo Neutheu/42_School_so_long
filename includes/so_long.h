@@ -6,7 +6,7 @@
 /*   By: nsouchal <nsouchal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 10:28:58 by nsouchal          #+#    #+#             */
-/*   Updated: 2024/01/26 11:29:05 by nsouchal         ###   ########.fr       */
+/*   Updated: 2024/01/30 14:26:41 by nsouchal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,10 @@
 
 # include "../minilibx-linux/mlx.h"
 # include "../libft/libft.h"
+# include "ft_printf.h"
 # include "get_next_line.h"
 # include <stdlib.h>
 # include <fcntl.h>
-# include <stdio.h>
 # include <X11/X.h>
 # include <X11/keysym.h>
 
@@ -28,8 +28,7 @@ typedef struct s_img
 	void	*img_wall;
 	void	*img_item;
 	void	*img_player;
-	void	*img_closed_exit;
-	void	*img_opened_exit;
+	void	*img_exit;
 	int		img_size;
 	int		width;
 	int		height;
@@ -40,17 +39,26 @@ typedef struct s_data
 	void	*mlx_ptr;
 	void	*win_ptr;
 	char	**map;
+	char	**map_copy;
 	int		map_width;
 	int		map_height;
 	int		pos_y;
 	int		pos_x;
 	int		item_collec;
 	int		item_to_coll;
+	int		all_items_collec;
+	int		check_items;
+	int		check_exit;
+	int		nb_mouves;
 	t_img	image;
 }	t_data;
 
-void	init_data(t_data *data);
+void	init_data(t_data *data, char *map_path);
 int		on_keypress(int keycode, t_data *data);
 void	display_map(t_data *data);
 void	close_window(t_data *data);
+int		final_check(t_data *data, char *map_path);
+char	*remove_newline(char *line);
+int		check_valid_path(t_data *data, char *map_path);
+
 #endif

@@ -6,7 +6,7 @@
 /*   By: nsouchal <nsouchal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 09:11:38 by nsouchal          #+#    #+#             */
-/*   Updated: 2024/01/26 11:31:45 by nsouchal         ###   ########.fr       */
+/*   Updated: 2024/01/30 14:26:18 by nsouchal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	display_map(t_data *data)
 				image = data->image.img_player;
 			}
 			if (data->map[y][x] == 'E')
-				image = data->image.img_closed_exit;
+				image = data->image.img_exit;
 			if (data->map[y][x] == 'C')
 				image = data->image.img_item;
 			mlx_put_image_to_window(data->mlx_ptr, data->win_ptr,
@@ -48,24 +48,24 @@ void	display_map(t_data *data)
 	}
 }
 
-int	main(void)
+int	main(int argc, char **argv)
 {
 	t_data	data;
 
-	init_data(&data);
-	display_map(&data);
-	// printf("y=%d\n", data.pos_y);
-	// printf("x=%d\n", data.pos_x);
-	// printf("%c", data.map[data.pos_y][data.pos_x]);
-	mlx_loop(data.mlx_ptr);
-	// mlx_destroy_window(mlx_ptr, win_ptr);
-	// mlx_destroy_display(mlx_ptr);
-	// free(mlx_ptr);
+	if (argc == 1)
+		ft_printf("Error\nNo map inclued\n");
+	if (argc == 2)
+	{
+		init_data(&data, argv[1]);
+		if (final_check(&data, argv[1]) == 0)
+		{
+			close_window(&data);
+			return (0);
+		}
+		display_map(&data);
+		mlx_loop(data.mlx_ptr);
+	}
+	if (argc > 2)
+		ft_printf("Error\nToo many arguments\n");
 	return (0);
 }
-
-/*
-- pouvoir passer sur lexit avant de tout recup et donc modifier image
-- modifier image exit quand tout recup et modifier comportement exit
-- afficher le nombre de mouv dans terminal
-*/
