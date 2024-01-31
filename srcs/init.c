@@ -6,7 +6,7 @@
 /*   By: nsouchal <nsouchal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 14:17:23 by nsouchal          #+#    #+#             */
-/*   Updated: 2024/01/30 13:18:42 by nsouchal         ###   ########.fr       */
+/*   Updated: 2024/01/31 11:08:21 by nsouchal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	count_items(t_data *data)
 
 	x = 0;
 	y = 0;
+	data->item_to_coll = 0;
 	while (y < data->map_height)
 	{
 		while (data->map[y][x])
@@ -55,31 +56,51 @@ char	*remove_newline(char *line)
 	return (new_line);
 }
 
-int	stock_map(t_data *data, char *map_path)
+int	fill_map(t_data *data, char *map_path, int nb_lines, int fd_map)
 {
-	int		fd_map;
-	int		nb_lines;
-	int		index;
+	int	index;
 
-	nb_lines = 0;
 	index = -1;
-	fd_map = open(map_path, O_RDONLY);
-	if (fd_map == -1)
-		return (-1);
-	while (get_next_line(fd_map))
-		nb_lines++;
-	if (close(fd_map) != 0)
-		return (-1);
 	data->map_height = nb_lines;
 	data->map = malloc(nb_lines * sizeof(char *));
 	fd_map = open(map_path, O_RDONLY);
 	if (fd_map == -1)
+	{
+		free(data->map);
 		return (-1);
+	}
 	while(++index < nb_lines)
 		data->map[index] = remove_newline(get_next_line(fd_map));
 	if (close(fd_map) != 0)
+	{
+		free_double_array(data->map, data);
 		return (-1);
+	}
 	data->map_width = ft_strlen(data->map[0]);
+	return (0);
+}
+
+int	stock_map(t_data *data, char *map_path)
+{
+	int		fd_map;
+	int		nb_lines;
+	char	*line;
+
+	nb_lines = -1;
+	line = "line";
+	fd_map = open(map_path, O_RDONLY);
+	if (fd_map == -1)
+		return (-1);
+	while (line != NULL)
+	{
+		line = get_next_line(fd_map);
+		free(line);
+		nb_lines++;
+	}
+	if (close(fd_map) != 0)
+		return (-1);
+	if (fill_map(data, map_path, nb_lines, fd_map) == -1)
+		return (-1);
 	return (0);
 }
 
@@ -92,25 +113,31 @@ void	set_images(t_data *data)
 	data->image.img_exit = mlx_xpm_file_to_image(data->mlx_ptr, "./assets/closed_exit.xpm", &data->image.width, &data->image.height);
 }
 
-void	init_data(t_data *data, char *map_path)
+int	init_data(t_data *data, char *map_path)
 {
 	data->mlx_ptr = mlx_init();
 	if (!data->mlx_ptr)
-		return ;
+		return (0) ;
 	data->image.img_size = 50;
 	data->item_collec = 0;
 	data->all_items_collec = 0;
-	data->nb_mouves = 0;
+	data->nb_moves = 0;
 	if (stock_map(data, map_path) == -1)
 	{
 		ft_printf("Error\nOpening or closing map\n");
-		return ;
+		mlx_destroy_display(data->mlx_ptr);
+		free(data->mlx_ptr);
+		return (0);
 	}
 	count_items(data);
 	data->win_ptr = mlx_new_window(data->mlx_ptr, data->image.img_size * data->map_width, data->image.img_size * data->map_height, "the burger quest");
 	if (!data->win_ptr)
-		return (free(data->mlx_ptr));
+	{
+		mlx_destroy_display(data->mlx_ptr);
+		return (free(data->mlx_ptr), 0);
+	}
 	set_images(data);
 	mlx_hook(data->win_ptr, KeyPress, KeyPressMask, on_keypress, data);
 	mlx_hook(data->win_ptr, 17, 0, (void *) exit, 0);
+	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: nsouchal <nsouchal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 14:20:35 by nsouchal          #+#    #+#             */
-/*   Updated: 2024/01/30 15:36:50 by nsouchal         ###   ########.fr       */
+/*   Updated: 2024/01/31 11:17:26 by nsouchal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,20 @@ void	close_window(t_data *data)
 {
 	if (data->all_items_collec == 1)
 	{
-		ft_printf("number of movements = %d\n", data->nb_mouves);
-		ft_printf("FINISHED WITH %d MOVEMENTS\n", data->nb_mouves);
+		ft_printf("number of movements = %d\n", data->nb_moves);
+		ft_printf("FINISHED WITH %d MOVEMENTS\n", data->nb_moves);
 	}
+	mlx_destroy_image(data->mlx_ptr, data->image.img_wall);
+	mlx_destroy_image(data->mlx_ptr, data->image.img_floor);
+	mlx_destroy_image(data->mlx_ptr, data->image.img_item);
+	mlx_destroy_image(data->mlx_ptr, data->image.img_player);
+	mlx_destroy_image(data->mlx_ptr, data->image.img_exit);
 	mlx_destroy_window(data->mlx_ptr, data->win_ptr);
 	mlx_destroy_display(data->mlx_ptr);
 	free(data->mlx_ptr);
+	free_double_array(data->map, data);
+	if (data->map_copy_exist == 1)
+		free_double_array(data->map_copy, data);
 	exit (EXIT_SUCCESS);
 }
 
@@ -77,6 +85,7 @@ void	collect_items(t_data *data, char c)
 		data->item_collec++;
 	if (data->item_collec == data->item_to_coll)
 	{
+		mlx_destroy_image(data->mlx_ptr, data->image.img_exit);
 		data->image.img_exit = mlx_xpm_file_to_image(data->mlx_ptr,
 		"./assets/opened_exit.xpm", &data->image.width, &data->image.height);
 		data->all_items_collec = 1;
@@ -90,7 +99,7 @@ void	move(t_data *data, char c)
 
 	y = data->pos_y;
 	x = data->pos_x;
-	data->nb_mouves++;
+	data->nb_moves++;
 	check_exit(data, c);
 	if (!check_valid_move(data, c))
 		return ;
@@ -105,7 +114,7 @@ void	move(t_data *data, char c)
 	if (c == 'd')
 		data->map[y][x + 1] = 'P';
 	display_map(data);
-	ft_printf("number of movements = %d\n", data->nb_mouves);
+	ft_printf("number of movements = %d\n", data->nb_moves);
 }
 
 int	on_keypress(int keycode, t_data *data)

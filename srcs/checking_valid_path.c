@@ -6,36 +6,56 @@
 /*   By: nsouchal <nsouchal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 11:37:28 by nsouchal          #+#    #+#             */
-/*   Updated: 2024/01/30 15:28:54 by nsouchal         ###   ########.fr       */
+/*   Updated: 2024/01/31 11:17:08 by nsouchal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/so_long.h"
 
+int	fill_map_copy(t_data *data, char *map_path, int nb_lines, int fd_map)
+{
+	int	index;
+
+	index = -1;
+	data->map_copy = malloc(nb_lines * sizeof(char *));
+	fd_map = open(map_path, O_RDONLY);
+	if (fd_map == -1)
+	{
+		free(data->map_copy);
+		return (-1);
+	}
+	while(++index < nb_lines)
+		data->map_copy[index] = remove_newline(get_next_line(fd_map));
+	if (close(fd_map) != 0)
+	{
+		free_double_array(data->map_copy, data);
+		return (-1);
+	}
+	return (0);
+}
+
 int	stock_map_copy(t_data *data, char *map_path)
 {
 	int		fd_map;
 	int		nb_lines;
-	int		index;
+	char	*line;
 
-	nb_lines = 0;
-	index = -1;
+	nb_lines = -1;
+	line = "line";
 	data->check_items = 0;
 	data->check_exit = 0;
 	fd_map = open(map_path, O_RDONLY);
 	if (fd_map == -1)
 		return (-1);
-	while (get_next_line(fd_map))
+	while (line != NULL)
+	{
+		line = get_next_line(fd_map);
+		free(line);
 		nb_lines++;
+	}
 	if (close(fd_map) != 0)
 		return (-1);
-	data->map_copy = malloc(nb_lines * sizeof(char *));
-	fd_map = open(map_path, O_RDONLY);
-	if (fd_map == -1)
-		return (-1);
-	while(++index < nb_lines)
-		data->map_copy[index] = remove_newline(get_next_line(fd_map));
-	if (close(fd_map) != 0)
+	if (fill_map_copy(data, map_path, nb_lines, fd_map) == -1)
 		return (-1);
 	return (0);
 }
@@ -75,6 +95,7 @@ int	check_valid_path(t_data *data, char *map_path)
 		ft_printf("Error\nOpening or closing map\n");
 		return (0);
 	}
+	data->map_copy_exist = 1;
 	while (i < 500)
 	{
 		while (y < data->map_height)

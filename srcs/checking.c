@@ -6,7 +6,7 @@
 /*   By: nsouchal <nsouchal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 14:55:29 by nsouchal          #+#    #+#             */
-/*   Updated: 2024/01/30 14:27:19 by nsouchal         ###   ########.fr       */
+/*   Updated: 2024/01/31 11:16:12 by nsouchal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,7 @@ int	check_closed_map(t_data *data)
 
 int	final_check(t_data *data, char *map_path)
 {
+	data->map_copy_exist = 0;
 	if (check_shape_map(data) == 0)
 		return (0);
 	if (check_closed_map(data) == 0)

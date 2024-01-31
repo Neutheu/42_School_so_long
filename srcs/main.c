@@ -6,7 +6,7 @@
 /*   By: nsouchal <nsouchal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 09:11:38 by nsouchal          #+#    #+#             */
-/*   Updated: 2024/01/30 14:26:18 by nsouchal         ###   ########.fr       */
+/*   Updated: 2024/01/31 11:20:20 by nsouchal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	display_map(t_data *data)
 {
 	int			x;
 	int			y;
-	void	*image;
+	void		*image;
 
 	x = 0;
 	y = 0;
@@ -51,13 +51,16 @@ void	display_map(t_data *data)
 int	main(int argc, char **argv)
 {
 	t_data	data;
+	char	*map_path;
 
 	if (argc == 1)
 		ft_printf("Error\nNo map inclued\n");
 	if (argc == 2)
 	{
-		init_data(&data, argv[1]);
-		if (final_check(&data, argv[1]) == 0)
+		map_path = argv[1];
+		if (init_data(&data, map_path) == 0)
+			return (0);
+		if (final_check(&data, map_path) == 0)
 		{
 			close_window(&data);
 			return (0);

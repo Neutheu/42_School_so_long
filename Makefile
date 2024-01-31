@@ -6,13 +6,14 @@
 #    By: nsouchal <nsouchal@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/23 09:14:12 by nsouchal          #+#    #+#              #
-#    Updated: 2024/01/30 11:37:49 by nsouchal         ###   ########.fr        #
+#    Updated: 2024/01/31 09:26:28 by nsouchal         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = so_long
 
-SRC_FILE = main.c get_next_line.c get_next_line_utils.c init.c events.c checking.c checking_valid_path.c
+SRC_FILE = main.c get_next_line.c get_next_line_utils.c init.c events.c \
+			checking.c checking_valid_path.c utils.c
 
 DIR_BUILD		=	.build/
 DIR_SRCS 		= 	srcs/
@@ -24,7 +25,7 @@ DIR_FTPRINTF	=	ft_printf/
 OBJS			=	$(patsubst %.c, $(DIR_BUILD)%.o, $(SRCS))
 SRCS			=	$(addprefix $(DIR_SRCS),$(SRC_FILE))
 
-FLAGS = -Wall -Werror -Wextra
+FLAGS = -Wall -Werror -Wextra -g
 MLX_FLAGS	=	-lXext -lX11 -lm -lz
 
 CC = cc
