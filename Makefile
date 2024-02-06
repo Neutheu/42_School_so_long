@@ -6,7 +6,7 @@
 #    By: nsouchal <nsouchal@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/23 09:14:12 by nsouchal          #+#    #+#              #
-#    Updated: 2024/01/31 09:26:28 by nsouchal         ###   ########.fr        #
+#    Updated: 2024/02/05 10:40:59 by nsouchal         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,35 +19,40 @@ DIR_BUILD		=	.build/
 DIR_SRCS 		= 	srcs/
 DIR_HEADERS		=	includes/
 DIR_LIBFT		=	libft/
-DIR_MLX			=	minilibx-linux
-DIR_FTPRINTF	=	ft_printf/
+DIR_MLX			=	minilibx-linux/
+
+HEADERFILES		= $(DIR_HEADERS)so_long.h $(DIR_HEADERS)get_next_line.h
 
 OBJS			=	$(patsubst %.c, $(DIR_BUILD)%.o, $(SRCS))
 SRCS			=	$(addprefix $(DIR_SRCS),$(SRC_FILE))
 
-FLAGS = -Wall -Werror -Wextra -g
+FLAGS		=	-Wall -Werror -Wextra
 MLX_FLAGS	=	-lXext -lX11 -lm -lz
 
 CC = cc
 
 .PHONY: all
-all: $(NAME)
+all: mlx libft $(NAME)
 
-$(NAME): $(OBJS)
-			${MAKE} -C $(DIR_MLX)
-			${MAKE} -C $(DIR_LIBFT)
-			${MAKE} -C $(DIR_FTPRINTF)
-			$(CC) $(OBJS) $(MLX_FLAGS) $(DIR_MLX)/libmlx.a $(DIR_LIBFT)/libft.a $(DIR_FTPRINTF)/libftprintf.a -o $(NAME)
+$(NAME): $(OBJS) $(DIR_LIBFT)libft.a
+			$(CC) $(OBJS) $(MLX_FLAGS) $(DIR_MLX)libmlx.a $(DIR_LIBFT)libft.a -o $(NAME)
 
-$(DIR_BUILD)%.o: %.c
+$(DIR_BUILD)%.o: %.c $(HEADERFILES) Makefile
 				mkdir -p $(shell dirname $@)
 				$(CC) $(FLAGS) -I/usr/include -Iminilibx-linux -O3 -c $< -o $@
+
+.PHONY: mlx
+mlx:
+		${MAKE} -C $(DIR_MLX)
+
+.PHONY: libft
+libft:
+		${MAKE} -C $(DIR_LIBFT)
 
 .PHONY: clean
 clean:
 	${MAKE} -C $(DIR_LIBFT) clean
 	${MAKE} -C $(DIR_MLX) clean
-	${MAKE} -C $(DIR_FTPRINTF) clean
 	rm -rf $(DIR_BUILD)
 
 .PHONY: fclean

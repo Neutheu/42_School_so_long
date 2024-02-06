@@ -6,47 +6,11 @@
 /*   By: nsouchal <nsouchal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 09:11:38 by nsouchal          #+#    #+#             */
-/*   Updated: 2024/01/31 11:20:20 by nsouchal         ###   ########.fr       */
+/*   Updated: 2024/02/01 08:21:38 by nsouchal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/so_long.h"
-
-void	display_map(t_data *data)
-{
-	int			x;
-	int			y;
-	void		*image;
-
-	x = 0;
-	y = 0;
-	image = NULL;
-	while (y < data->map_height)
-	{
-		while (x < data->map_width)
-		{
-			if (data->map[y][x] == '1')
-				image = data->image.img_wall;
-			if (data->map[y][x] == '0')
-				image = data->image.img_floor;
-			if (data->map[y][x] == 'P')
-			{
-				data->pos_x = x;
-				data->pos_y = y;
-				image = data->image.img_player;
-			}
-			if (data->map[y][x] == 'E')
-				image = data->image.img_exit;
-			if (data->map[y][x] == 'C')
-				image = data->image.img_item;
-			mlx_put_image_to_window(data->mlx_ptr, data->win_ptr,
-				image, x * data->image.img_size, y * data->image.img_size);
-			x++;
-		}
-		x = 0;
-		y++;
-	}
-}
 
 int	main(int argc, char **argv)
 {

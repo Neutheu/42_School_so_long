@@ -6,11 +6,11 @@
 /*   By: nsouchal <nsouchal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 12:48:47 by nsouchal          #+#    #+#             */
-/*   Updated: 2024/01/29 13:32:20 by nsouchal         ###   ########.fr       */
+/*   Updated: 2024/02/01 11:15:49 by nsouchal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/ft_printf.h"
+#include "ft_printf.h"
 
 static int	check_type(int c, va_list ap)
 {

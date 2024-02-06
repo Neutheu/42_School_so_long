@@ -6,7 +6,7 @@
 /*   By: nsouchal <nsouchal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 14:17:23 by nsouchal          #+#    #+#             */
-/*   Updated: 2024/01/31 11:08:21 by nsouchal         ###   ########.fr       */
+/*   Updated: 2024/02/06 10:37:31 by nsouchal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,29 +33,6 @@ void	count_items(t_data *data)
 	}
 }
 
-char	*remove_newline(char *line)
-{
-	char	*new_line;
-	int		i;
-
-	i = 0;
-	new_line  = NULL;
-	new_line = malloc(ft_strlen(line) * sizeof(char));
-	if (!new_line)
-	{
-		free(line);
-		return (NULL);
-	}
-	while (line[i] != '\n')
-	{
-		new_line[i] = line[i];
-		i++;
-	}
-	new_line[i] = '\0';
-	free(line);
-	return (new_line);
-}
-
 int	fill_map(t_data *data, char *map_path, int nb_lines, int fd_map)
 {
 	int	index;
@@ -69,7 +46,7 @@ int	fill_map(t_data *data, char *map_path, int nb_lines, int fd_map)
 		free(data->map);
 		return (-1);
 	}
-	while(++index < nb_lines)
+	while (++index < nb_lines)
 		data->map[index] = remove_newline(get_next_line(fd_map));
 	if (close(fd_map) != 0)
 	{
@@ -106,18 +83,23 @@ int	stock_map(t_data *data, char *map_path)
 
 void	set_images(t_data *data)
 {
-	data->image.img_floor = mlx_xpm_file_to_image(data->mlx_ptr, "./assets/floor.xpm",&data->image.width, &data->image.height);
-	data->image.img_wall = mlx_xpm_file_to_image(data->mlx_ptr, "./assets/wall.xpm", &data->image.width, &data->image.height);
-	data->image.img_item = mlx_xpm_file_to_image(data->mlx_ptr, "./assets/item.xpm", &data->image.width, &data->image.height);
-	data->image.img_player = mlx_xpm_file_to_image(data->mlx_ptr, "./assets/player.xpm", &data->image.width, &data->image.height);
-	data->image.img_exit = mlx_xpm_file_to_image(data->mlx_ptr, "./assets/closed_exit.xpm", &data->image.width, &data->image.height);
+	data->image.img_floor = mlx_xpm_file_to_image(data->mlx_ptr,
+			"./assets/floor.xpm", &data->image.width, &data->image.height);
+	data->image.img_wall = mlx_xpm_file_to_image(data->mlx_ptr,
+			"./assets/wall.xpm", &data->image.width, &data->image.height);
+	data->image.img_item = mlx_xpm_file_to_image(data->mlx_ptr,
+			"./assets/item.xpm", &data->image.width, &data->image.height);
+	data->image.img_player = mlx_xpm_file_to_image(data->mlx_ptr,
+			"./assets/player.xpm", &data->image.width, &data->image.height);
+	data->image.img_exit = mlx_xpm_file_to_image(data->mlx_ptr,
+			"./assets/close_exit.xpm", &data->image.width, &data->image.height);
 }
 
 int	init_data(t_data *data, char *map_path)
 {
 	data->mlx_ptr = mlx_init();
 	if (!data->mlx_ptr)
-		return (0) ;
+		return (0);
 	data->image.img_size = 50;
 	data->item_collec = 0;
 	data->all_items_collec = 0;
@@ -126,18 +108,18 @@ int	init_data(t_data *data, char *map_path)
 	{
 		ft_printf("Error\nOpening or closing map\n");
 		mlx_destroy_display(data->mlx_ptr);
-		free(data->mlx_ptr);
-		return (0);
+		return (free(data->mlx_ptr), 0);
 	}
 	count_items(data);
-	data->win_ptr = mlx_new_window(data->mlx_ptr, data->image.img_size * data->map_width, data->image.img_size * data->map_height, "the burger quest");
+	data->win_ptr = mlx_new_window(data->mlx_ptr,
+			data->image.img_size * data->map_width,
+			data->image.img_size * data->map_height, "the burger quest");
 	if (!data->win_ptr)
 	{
 		mlx_destroy_display(data->mlx_ptr);
-		return (free(data->mlx_ptr), 0);
+		return (free_double_array(data->map, data), free(data->mlx_ptr), 0);
 	}
-	set_images(data);
 	mlx_hook(data->win_ptr, KeyPress, KeyPressMask, on_keypress, data);
-	mlx_hook(data->win_ptr, 17, 0, (void *) exit, 0);
-	return (1);
+	mlx_hook(data->win_ptr, 17, 0, close_window, data);
+	return (set_images(data), 1);
 }

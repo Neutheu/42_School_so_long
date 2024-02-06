@@ -6,7 +6,7 @@
 /*   By: nsouchal <nsouchal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 10:28:58 by nsouchal          #+#    #+#             */
-/*   Updated: 2024/01/31 11:15:47 by nsouchal         ###   ########.fr       */
+/*   Updated: 2024/02/01 11:58:47 by nsouchal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 # include "../minilibx-linux/mlx.h"
 # include "../libft/libft.h"
-# include "ft_printf.h"
 # include "get_next_line.h"
 # include <stdlib.h>
 # include <fcntl.h>
@@ -57,9 +56,10 @@ typedef struct s_data
 int		init_data(t_data *data, char *map_path);
 int		on_keypress(int keycode, t_data *data);
 void	display_map(t_data *data);
-void	close_window(t_data *data);
+int		close_window(t_data *data);
 int		final_check(t_data *data, char *map_path);
 char	*remove_newline(char *line);
 int		check_valid_path(t_data *data, char *map_path);
 void	free_double_array(char **array, t_data *data);
+char	*remove_newline(char *line);
 #endif

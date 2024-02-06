@@ -6,7 +6,7 @@
 /*   By: nsouchal <nsouchal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 08:53:47 by nsouchal          #+#    #+#             */
-/*   Updated: 2023/11/23 09:34:20 by nsouchal         ###   ########.fr       */
+/*   Updated: 2024/02/01 11:29:10 by nsouchal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define LIBFT_H
 
 # include <stddef.h>
+# include "ft_printf/ft_printf.h"
 
 typedef struct s_list
 {

@@ -1,23 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   printf_xlow_xupp.c                                 :+:      :+:    :+:   */
+/*   printf_u.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nsouchal <nsouchal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/28 12:28:14 by nsouchal          #+#    #+#             */
-/*   Updated: 2024/01/29 13:32:39 by nsouchal         ###   ########.fr       */
+/*   Created: 2023/11/28 11:14:28 by nsouchal          #+#    #+#             */
+/*   Updated: 2024/02/01 11:16:11 by nsouchal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/ft_printf.h"
+#include "ft_printf.h"
 
 static void	ft_putchar(int c)
 {
 	write(1, &c, 1);
 }
 
-static int	length_nb(long unsigned int nb)
+static int	length_nb(unsigned int nb)
 {
 	int	result;
 
@@ -27,29 +27,22 @@ static int	length_nb(long unsigned int nb)
 	while (nb > 0)
 	{
 		result++;
-		nb /= 16;
+		nb /= 10;
 	}
 	return (result);
 }
 
-int	printf_xlow_xupp(long unsigned int nb, int c)
+int	printf_u(unsigned int nb)
 {
-	char	*base;
-	int		result;
+	int	result;
 
-	if (c == 'x')
-		base = "0123456789abcdef";
-	if (c == 'X')
-		base = "0123456789ABCDEF";
 	result = length_nb(nb);
-	if (nb >= 16)
+	if (nb >= 10)
 	{
-		printf_xlow_xupp(nb / 16, c);
-		printf_xlow_xupp(nb % 16, c);
+		printf_u(nb / 10);
+		printf_u(nb % 10);
 	}
 	else
-	{
-		ft_putchar(base[nb]);
-	}
+		ft_putchar(nb + 48);
 	return (result);
 }

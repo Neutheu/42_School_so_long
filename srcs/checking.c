@@ -6,7 +6,7 @@
 /*   By: nsouchal <nsouchal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 14:55:29 by nsouchal          #+#    #+#             */
-/*   Updated: 2024/01/31 11:16:12 by nsouchal         ###   ########.fr       */
+/*   Updated: 2024/02/06 11:37:39 by nsouchal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ int	check_shape_map(t_data *data)
 	i = 0;
 	while (i < data->map_height)
 	{
-		if ((int)ft_strlen(data->map[i]) != data->map_width || data->map_height == data->map_width)
+		if ((int)ft_strlen(data->map[i]) != data->map_width
+			|| data->map_height == data->map_width)
 		{
 			ft_printf("Error\nNon-rectangular map\n");
 			return (0);
@@ -113,6 +114,11 @@ int	check_closed_map(t_data *data)
 int	final_check(t_data *data, char *map_path)
 {
 	data->map_copy_exist = 0;
+	if (ft_strncmp(map_path + ft_strlen(map_path) - 4, ".ber", 10) != 0)
+	{
+		ft_printf("Bad extension for map file, must be .ber");
+		return (0);
+	}
 	if (check_shape_map(data) == 0)
 		return (0);
 	if (check_closed_map(data) == 0)

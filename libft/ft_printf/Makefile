@@ -6,7 +6,7 @@
 #    By: nsouchal <nsouchal@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/22 09:38:53 by nsouchal          #+#    #+#              #
-#    Updated: 2023/11/28 14:56:19 by nsouchal         ###   ########.fr        #
+#    Updated: 2024/02/05 10:52:50 by nsouchal         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,19 +21,16 @@ FLAGS = -Wall -Werror -Wextra
 
 CC = cc
 
-LIB = ft_printf.h
-
-%.o: %.c $(LIB)
-	$(CC) $(FLAGS) -c $< -o $@
+HEADERFILES = ft_printf.h
 
 all: $(NAME)
-
-compile : $(SRC)
-	$(CC) $^
-
+	
 $(NAME): $(OBJ)
 	ar rcs $@ $^
 
+%.o: %.c $(HEADERFILES) Makefile
+	$(CC) $(FLAGS) -c $< -o $@
+	
 clean:
 	rm -f $(OBJ)
 

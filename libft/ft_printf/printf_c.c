@@ -1,29 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   printf_p.c                                         :+:      :+:    :+:   */
+/*   printf_c.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nsouchal <nsouchal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/28 13:27:05 by nsouchal          #+#    #+#             */
-/*   Updated: 2024/01/29 13:32:31 by nsouchal         ###   ########.fr       */
+/*   Created: 2023/11/27 11:23:38 by nsouchal          #+#    #+#             */
+/*   Updated: 2024/02/01 11:15:54 by nsouchal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/ft_printf.h"
+#include "ft_printf.h"
 
-int	printf_p(long unsigned int ptr)
+int	printf_c(int c)
 {
-	int	result;
-	int	x;
-
-	if (ptr == 0)
-	{
-		write(1, "(nil)", 5);
-		return (5);
-	}
-	x = 'x';
-	printf_s("0x");
-	result = printf_xlow_xupp(ptr, x);
-	return (result + 2);
+	write (1, &c, 1);
+	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: nsouchal <nsouchal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/16 08:45:09 by nsouchal          #+#    #+#             */
-/*   Updated: 2023/11/23 09:48:20 by nsouchal         ###   ########.fr       */
+/*   Updated: 2024/02/01 11:19:36 by nsouchal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,3 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		return (0);
 	return (concat_str(s1, s2, new_s));
 }
-/*
-int main(int argc, char **argv)
-{
-	(void)argc;
-	printf("%s", ft_strjoin(argv[1], argv[2]));
-}*/

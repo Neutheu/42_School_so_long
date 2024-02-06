@@ -1,48 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   printf_u.c                                         :+:      :+:    :+:   */
+/*   printf_p.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nsouchal <nsouchal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/28 11:14:28 by nsouchal          #+#    #+#             */
-/*   Updated: 2024/01/29 13:32:36 by nsouchal         ###   ########.fr       */
+/*   Created: 2023/11/28 13:27:05 by nsouchal          #+#    #+#             */
+/*   Updated: 2024/02/01 11:16:02 by nsouchal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/ft_printf.h"
+#include "ft_printf.h"
 
-static void	ft_putchar(int c)
-{
-	write(1, &c, 1);
-}
-
-static int	length_nb(unsigned int nb)
+int	printf_p(long unsigned int ptr)
 {
 	int	result;
+	int	x;
 
-	result = 0;
-	if (nb == 0)
-		result = 1;
-	while (nb > 0)
+	if (ptr == 0)
 	{
-		result++;
-		nb /= 10;
+		write(1, "(nil)", 5);
+		return (5);
 	}
-	return (result);
-}
-
-int	printf_u(unsigned int nb)
-{
-	int	result;
-
-	result = length_nb(nb);
-	if (nb >= 10)
-	{
-		printf_u(nb / 10);
-		printf_u(nb % 10);
-	}
-	else
-		ft_putchar(nb + 48);
-	return (result);
+	x = 'x';
+	printf_s("0x");
+	result = printf_xlow_xupp(ptr, x);
+	return (result + 2);
 }

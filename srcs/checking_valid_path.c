@@ -6,7 +6,7 @@
 /*   By: nsouchal <nsouchal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 11:37:28 by nsouchal          #+#    #+#             */
-/*   Updated: 2024/01/31 11:17:08 by nsouchal         ###   ########.fr       */
+/*   Updated: 2024/02/01 08:55:41 by nsouchal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	fill_map_copy(t_data *data, char *map_path, int nb_lines, int fd_map)
 		free(data->map_copy);
 		return (-1);
 	}
-	while(++index < nb_lines)
+	while (++index < nb_lines)
 		data->map_copy[index] = remove_newline(get_next_line(fd_map));
 	if (close(fd_map) != 0)
 	{
@@ -73,12 +73,24 @@ void	p_replace(t_data *data, int x, int y)
 		data->check_exit++;
 }
 
-void	p_replacings(t_data *data, int x, int y)
+void	p_filling(t_data *data, int x, int y)
 {
-	p_replace(data, x + 1, y);
-	p_replace(data, x - 1, y);
-	p_replace(data, x, y + 1);
-	p_replace(data, x, y - 1);
+	while (y < data->map_height)
+	{
+		while (x < data->map_width)
+		{
+			if (data->map_copy[y][x] == 'P')
+			{
+				p_replace(data, x + 1, y);
+				p_replace(data, x - 1, y);
+				p_replace(data, x, y + 1);
+				p_replace(data, x, y - 1);
+			}
+			x++;
+		}
+		x = 0;
+		y++;
+	}
 }
 
 int	check_valid_path(t_data *data, char *map_path)
@@ -98,17 +110,7 @@ int	check_valid_path(t_data *data, char *map_path)
 	data->map_copy_exist = 1;
 	while (i < 500)
 	{
-		while (y < data->map_height)
-		{
-			while (x < data->map_width)
-			{
-				if (data->map_copy[y][x] == 'P')
-					p_replacings(data, x, y);
-				x++;
-			}
-			x = 0;
-			y++;
-		}
+		p_filling(data, x, y);
 		y = 0;
 		i++;
 	}

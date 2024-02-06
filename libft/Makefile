@@ -6,7 +6,7 @@
 #    By: nsouchal <nsouchal@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/13 12:39:14 by nsouchal          #+#    #+#              #
-#    Updated: 2023/11/28 10:29:32 by nsouchal         ###   ########.fr        #
+#    Updated: 2024/02/05 10:46:42 by nsouchal         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,31 +25,41 @@ BONUS = ft_lstnew_bonus.c ft_lstadd_front_bonus.c ft_lstsize_bonus.c ft_lstlast_
 
 BONUS_OBJ = $(BONUS:.c=.o)
 
+DIR_FTPRINTF	=	ft_printf/
+
 NAME = libft.a
 
 FLAGS = -Wall -Werror -Wextra
 
 CC = cc
 
-LIB = libft.h
+HEADERFILES = libft.h
 
-%.o: %.c $(LIB)
+
+all: ft_printf $(NAME)
+
+$(NAME): $(OBJ) $(DIR_FTPRINTF)libftprintf.a
+			cd $(DIR_FTPRINTF) && cp libftprintf.a ../$(NAME)
+			ar rcs $(NAME) $(OBJ)
+			ranlib $(NAME)
+
+%.o: %.c $(HEADERFILES) Makefile
 	$(CC) $(FLAGS) -c $< -o $@
-
-all: $(NAME)
-
-$(NAME): $(OBJ) $(LIB)
-	ar rcs $(NAME) $(OBJ)
+			
+ft_printf:
+				$(MAKE) -C $(DIR_FTPRINTF)
 
 clean:
 	rm -f $(OBJ) $(BONUS_OBJ)
+	$(MAKE) -C $(DIR_FTPRINTF) clean
 
 fclean: clean
 	rm -f $(NAME)
+	$(MAKE) -C $(DIR_FTPRINTF) fclean
 
-bonus : 
+bonus :
 	$(MAKE) $(NAME) SRC="$(SRC) $(BONUS)"
 
 re: fclean all
 
-.PHONY: all clean fclean bonus re
+.PHONY: all clean fclean bonus re ft_printf
