@@ -6,7 +6,7 @@
 /*   By: nsouchal <nsouchal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 14:17:23 by nsouchal          #+#    #+#             */
-/*   Updated: 2024/02/07 15:08:43 by nsouchal         ###   ########.fr       */
+/*   Updated: 2024/02/08 10:17:08 by nsouchal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ int	fill_map(t_data *data, char *map_path, int nb_lines, int fd_map)
 	index = -1;
 	data->map_height = nb_lines;
 	data->map = malloc(nb_lines * sizeof(char *));
+	if (!data->map)
+		return (-1);
 	fd_map = open(map_path, O_RDONLY);
 	if (fd_map == -1)
 	{
@@ -47,12 +49,13 @@ int	fill_map(t_data *data, char *map_path, int nb_lines, int fd_map)
 		return (-1);
 	}
 	while (++index < nb_lines)
-		data->map[index] = remove_newline(get_next_line(fd_map));
-	if (close(fd_map) != 0)
 	{
-		free_double_array(data->map, data);
-		return (-1);
+		data->map[index] = remove_newline(get_next_line(fd_map));
+		if (!data->map[index])
+			return (free_double_array(data->map, data, index), -1);
 	}
+	if (close(fd_map) != 0)
+		return (free_double_array(data->map, data, 0), -1);
 	data->map_width = ft_strlen(data->map[0]);
 	return (0);
 }
@@ -71,6 +74,8 @@ int	stock_map(t_data *data, char *map_path)
 	while (line != NULL)
 	{
 		line = get_next_line(fd_map);
+		if (!line)
+			return (-1);
 		free(line);
 		nb_lines++;
 	}
@@ -132,7 +137,7 @@ int	init_data(t_data *data, char *map_path)
 	if (!data->win_ptr)
 	{
 		mlx_destroy_display(data->mlx_ptr);
-		return (free_double_array(data->map, data), free(data->mlx_ptr), 0);
+		return (free_double_array(data->map, data, 0), free(data->mlx_ptr), 0);
 	}
 	mlx_hook(data->win_ptr, KeyPress, KeyPressMask, on_keypress, data);
 	mlx_hook(data->win_ptr, 17, 0, close_window, data);

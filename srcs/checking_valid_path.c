@@ -6,7 +6,7 @@
 /*   By: nsouchal <nsouchal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 11:37:28 by nsouchal          #+#    #+#             */
-/*   Updated: 2024/02/01 08:55:41 by nsouchal         ###   ########.fr       */
+/*   Updated: 2024/02/08 10:17:14 by nsouchal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ int	fill_map_copy(t_data *data, char *map_path, int nb_lines, int fd_map)
 
 	index = -1;
 	data->map_copy = malloc(nb_lines * sizeof(char *));
+	if (!data->map_copy)
+		return (-1);
 	fd_map = open(map_path, O_RDONLY);
 	if (fd_map == -1)
 	{
@@ -25,12 +27,13 @@ int	fill_map_copy(t_data *data, char *map_path, int nb_lines, int fd_map)
 		return (-1);
 	}
 	while (++index < nb_lines)
-		data->map_copy[index] = remove_newline(get_next_line(fd_map));
-	if (close(fd_map) != 0)
 	{
-		free_double_array(data->map_copy, data);
-		return (-1);
+		data->map_copy[index] = remove_newline(get_next_line(fd_map));
+		if (!data->map_copy[index])
+			return (free_double_array(data->map_copy, data, index), -1);
 	}
+	if (close(fd_map) != 0)
+		return (free_double_array(data->map_copy, data, 0), -1);
 	return (0);
 }
 
@@ -50,6 +53,8 @@ int	stock_map_copy(t_data *data, char *map_path)
 	while (line != NULL)
 	{
 		line = get_next_line(fd_map);
+		if (!line)
+			return (-1);
 		free(line);
 		nb_lines++;
 	}

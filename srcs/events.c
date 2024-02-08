@@ -6,7 +6,7 @@
 /*   By: nsouchal <nsouchal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 14:20:35 by nsouchal          #+#    #+#             */
-/*   Updated: 2024/02/08 08:43:52 by nsouchal         ###   ########.fr       */
+/*   Updated: 2024/02/08 09:59:43 by nsouchal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,22 +81,23 @@ void	move(t_data *data, char c)
 
 	y = data->pos_y;
 	x = data->pos_x;
-	data->nb_moves++;
 	check_exit(data, c);
-	if (!check_valid_move(data, c))
-		return ;
-	collect_items(data, c);
-	data->map[y][x] = '0';
-	if (c == 'a')
-		data->map[y][x - 1] = 'P';
-	if (c == 'w')
-		data->map[y - 1][x] = 'P';
-	if (c == 's')
-		data->map[y + 1][x] = 'P';
-	if (c == 'd')
-		data->map[y][x + 1] = 'P';
-	display_map(data);
-	ft_printf("number of movements = %d\r", data->nb_moves);
+	if (check_valid_move(data, c))
+	{
+		data->nb_moves++;
+		collect_items(data, c);
+		data->map[y][x] = '0';
+		if (c == 'a')
+			data->map[y][x - 1] = 'P';
+		if (c == 'w')
+			data->map[y - 1][x] = 'P';
+		if (c == 's')
+			data->map[y + 1][x] = 'P';
+		if (c == 'd')
+			data->map[y][x + 1] = 'P';
+		display_map(data);
+		ft_printf("number of movements = %d\r", data->nb_moves);
+	}
 }
 
 int	on_keypress(int keycode, t_data *data)
