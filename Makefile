@@ -6,14 +6,14 @@
 #    By: nsouchal <nsouchal@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/23 09:14:12 by nsouchal          #+#    #+#              #
-#    Updated: 2024/02/05 10:40:59 by nsouchal         ###   ########.fr        #
+#    Updated: 2024/02/07 14:53:36 by nsouchal         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = so_long
 
 SRC_FILE = main.c get_next_line.c get_next_line_utils.c init.c events.c \
-			checking.c checking_valid_path.c utils.c
+			checking.c checking_valid_path.c utils.c image_error.c
 
 DIR_BUILD		=	.build/
 DIR_SRCS 		= 	srcs/

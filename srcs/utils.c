@@ -6,7 +6,7 @@
 /*   By: nsouchal <nsouchal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 09:24:58 by nsouchal          #+#    #+#             */
-/*   Updated: 2024/02/01 11:06:02 by nsouchal         ###   ########.fr       */
+/*   Updated: 2024/02/07 15:44:48 by nsouchal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,9 +90,9 @@ char	*remove_newline(char *line)
 	return (new_line);
 }
 
-int	close_window(t_data *data)
+int	close_window(t_data *data, int bool_exit)
 {
-	if (data->all_items_collec == 1)
+	if (data->all_items_collec == 1 && bool_exit == 1)
 	{
 		ft_printf("number of movements = %d\n", data->nb_moves);
 		ft_printf("FINISHED WITH %d MOVEMENTS\n", data->nb_moves);

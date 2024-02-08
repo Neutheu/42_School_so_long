@@ -6,7 +6,7 @@
 /*   By: nsouchal <nsouchal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 09:11:38 by nsouchal          #+#    #+#             */
-/*   Updated: 2024/02/01 08:21:38 by nsouchal         ###   ########.fr       */
+/*   Updated: 2024/02/07 15:44:22 by nsouchal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	main(int argc, char **argv)
 			return (0);
 		if (final_check(&data, map_path) == 0)
 		{
-			close_window(&data);
+			close_window(&data, 0);
 			return (0);
 		}
 		display_map(&data);

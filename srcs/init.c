@@ -6,7 +6,7 @@
 /*   By: nsouchal <nsouchal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 14:17:23 by nsouchal          #+#    #+#             */
-/*   Updated: 2024/02/06 10:37:31 by nsouchal         ###   ########.fr       */
+/*   Updated: 2024/02/07 15:08:43 by nsouchal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,16 +83,31 @@ int	stock_map(t_data *data, char *map_path)
 
 void	set_images(t_data *data)
 {
+	data->image.img_exit = NULL;
+	data->image.img_floor = NULL;
+	data->image.img_wall = NULL;
+	data->image.img_item = NULL;
+	data->image.img_player = NULL;
 	data->image.img_floor = mlx_xpm_file_to_image(data->mlx_ptr,
 			"./assets/floor.xpm", &data->image.width, &data->image.height);
+	if (!data->image.img_floor)
+		return (free_error_image(data));
 	data->image.img_wall = mlx_xpm_file_to_image(data->mlx_ptr,
 			"./assets/wall.xpm", &data->image.width, &data->image.height);
+	if (!data->image.img_wall)
+		return (free_error_image(data));
 	data->image.img_item = mlx_xpm_file_to_image(data->mlx_ptr,
 			"./assets/item.xpm", &data->image.width, &data->image.height);
+	if (!data->image.img_item)
+		return (free_error_image(data));
 	data->image.img_player = mlx_xpm_file_to_image(data->mlx_ptr,
 			"./assets/player.xpm", &data->image.width, &data->image.height);
+	if (!data->image.img_player)
+		return (free_error_image(data));
 	data->image.img_exit = mlx_xpm_file_to_image(data->mlx_ptr,
 			"./assets/close_exit.xpm", &data->image.width, &data->image.height);
+	if (!data->image.img_exit)
+		return (free_error_image(data));
 }
 
 int	init_data(t_data *data, char *map_path)
