@@ -6,7 +6,7 @@
 /*   By: nsouchal <nsouchal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 13:57:12 by nsouchal          #+#    #+#             */
-/*   Updated: 2024/02/08 09:54:42 by nsouchal         ###   ########.fr       */
+/*   Updated: 2024/02/09 10:46:52 by nsouchal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ void	free_error_image(t_data *data)
 	mlx_destroy_window(data->mlx_ptr, data->win_ptr);
 	mlx_destroy_display(data->mlx_ptr);
 	free(data->mlx_ptr);
-	free_double_array(data->map, data, 0);
+	free_double_array(data->map, data, -1);
 	if (data->map_copy_exist == 1)
-		free_double_array(data->map_copy, data, 0);
+		free_double_array(data->map_copy, data, -1);
 	exit (EXIT_SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: nsouchal <nsouchal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 14:55:29 by nsouchal          #+#    #+#             */
-/*   Updated: 2024/02/06 11:37:39 by nsouchal         ###   ########.fr       */
+/*   Updated: 2024/02/09 10:38:13 by nsouchal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,7 @@ int	final_check(t_data *data, char *map_path)
 		return (0);
 	if (count_and_check_data_map(data) == 0)
 		return (0);
-	if (check_valid_path(data, map_path) == 0)
+	if (check_valid_path(data) == 0)
 		return (0);
 	return (1);
 }

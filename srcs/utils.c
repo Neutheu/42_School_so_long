@@ -6,7 +6,7 @@
 /*   By: nsouchal <nsouchal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 09:24:58 by nsouchal          #+#    #+#             */
-/*   Updated: 2024/02/08 09:52:35 by nsouchal         ###   ########.fr       */
+/*   Updated: 2024/02/09 10:58:54 by nsouchal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	free_double_array(char **array, t_data *data, int index)
 	int	i;
 
 	i = 0;
-	if (index == 0)
+	if (index == -1)
 		index = data->map_height;
 	while (i < index)
 	{
@@ -107,8 +107,8 @@ int	close_window(t_data *data, int bool_exit)
 	mlx_destroy_window(data->mlx_ptr, data->win_ptr);
 	mlx_destroy_display(data->mlx_ptr);
 	free(data->mlx_ptr);
-	free_double_array(data->map, data, 0);
+	free_double_array(data->map, data, -1);
 	if (data->map_copy_exist == 1)
-		free_double_array(data->map_copy, data, 0);
+		free_double_array(data->map_copy, data, -1);
 	exit (EXIT_SUCCESS);
 }

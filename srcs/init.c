@@ -6,7 +6,7 @@
 /*   By: nsouchal <nsouchal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 14:17:23 by nsouchal          #+#    #+#             */
-/*   Updated: 2024/02/08 10:17:08 by nsouchal         ###   ########.fr       */
+/*   Updated: 2024/02/09 10:58:14 by nsouchal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	fill_map(t_data *data, char *map_path, int nb_lines, int fd_map)
 			return (free_double_array(data->map, data, index), -1);
 	}
 	if (close(fd_map) != 0)
-		return (free_double_array(data->map, data, 0), -1);
+		return (free_double_array(data->map, data, -1), -1);
 	data->map_width = ft_strlen(data->map[0]);
 	return (0);
 }
@@ -74,11 +74,11 @@ int	stock_map(t_data *data, char *map_path)
 	while (line != NULL)
 	{
 		line = get_next_line(fd_map);
-		if (!line)
-			return (-1);
 		free(line);
 		nb_lines++;
 	}
+	if (nb_lines == 0)
+		return (-1);
 	if (close(fd_map) != 0)
 		return (-1);
 	if (fill_map(data, map_path, nb_lines, fd_map) == -1)
@@ -137,7 +137,7 @@ int	init_data(t_data *data, char *map_path)
 	if (!data->win_ptr)
 	{
 		mlx_destroy_display(data->mlx_ptr);
-		return (free_double_array(data->map, data, 0), free(data->mlx_ptr), 0);
+		return (free_double_array(data->map, data, -1), free(data->mlx_ptr), 0);
 	}
 	mlx_hook(data->win_ptr, KeyPress, KeyPressMask, on_keypress, data);
 	mlx_hook(data->win_ptr, 17, 0, close_window, data);

@@ -6,7 +6,7 @@
 #    By: nsouchal <nsouchal@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/23 09:14:12 by nsouchal          #+#    #+#              #
-#    Updated: 2024/02/07 14:53:36 by nsouchal         ###   ########.fr        #
+#    Updated: 2024/02/09 10:40:17 by nsouchal         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,7 @@ HEADERFILES		= $(DIR_HEADERS)so_long.h $(DIR_HEADERS)get_next_line.h
 OBJS			=	$(patsubst %.c, $(DIR_BUILD)%.o, $(SRCS))
 SRCS			=	$(addprefix $(DIR_SRCS),$(SRC_FILE))
 
-FLAGS		=	-Wall -Werror -Wextra
+FLAGS		=	-Wall -Werror -Wextra -g
 MLX_FLAGS	=	-lXext -lX11 -lm -lz
 
 CC = cc

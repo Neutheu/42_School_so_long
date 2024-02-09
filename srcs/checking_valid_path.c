@@ -6,62 +6,38 @@
 /*   By: nsouchal <nsouchal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 11:37:28 by nsouchal          #+#    #+#             */
-/*   Updated: 2024/02/08 10:17:14 by nsouchal         ###   ########.fr       */
+/*   Updated: 2024/02/09 10:48:26 by nsouchal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/so_long.h"
 
-int	fill_map_copy(t_data *data, char *map_path, int nb_lines, int fd_map)
+int	copy_map(t_data *data)
 {
-	int	index;
+	int	y;
+	int	x;
 
-	index = -1;
-	data->map_copy = malloc(nb_lines * sizeof(char *));
-	if (!data->map_copy)
-		return (-1);
-	fd_map = open(map_path, O_RDONLY);
-	if (fd_map == -1)
-	{
-		free(data->map_copy);
-		return (-1);
-	}
-	while (++index < nb_lines)
-	{
-		data->map_copy[index] = remove_newline(get_next_line(fd_map));
-		if (!data->map_copy[index])
-			return (free_double_array(data->map_copy, data, index), -1);
-	}
-	if (close(fd_map) != 0)
-		return (free_double_array(data->map_copy, data, 0), -1);
-	return (0);
-}
-
-int	stock_map_copy(t_data *data, char *map_path)
-{
-	int		fd_map;
-	int		nb_lines;
-	char	*line;
-
-	nb_lines = -1;
-	line = "line";
+	y = 0;
+	x = -1;
 	data->check_items = 0;
 	data->check_exit = 0;
-	fd_map = open(map_path, O_RDONLY);
-	if (fd_map == -1)
+	data->map_copy = malloc(data->map_height * sizeof(char *));
+	if (!data->map_copy)
 		return (-1);
-	while (line != NULL)
+	while (y < data->map_height)
 	{
-		line = get_next_line(fd_map);
-		if (!line)
-			return (-1);
-		free(line);
-		nb_lines++;
+		data->map_copy[y] = malloc(data->map_width * sizeof(char));
+		if (!data->map_copy[y])
+			return (free_double_array(data->map_copy, data, y), -1);
+		y++;
 	}
-	if (close(fd_map) != 0)
-		return (-1);
-	if (fill_map_copy(data, map_path, nb_lines, fd_map) == -1)
-		return (-1);
+	y = -1;
+	while (++y < data->map_height)
+	{
+		while (++x < data->map_width)
+			data->map_copy[y][x] = data->map[y][x];
+		x = -1;
+	}
 	return (0);
 }
 
@@ -98,7 +74,7 @@ void	p_filling(t_data *data, int x, int y)
 	}
 }
 
-int	check_valid_path(t_data *data, char *map_path)
+int	check_valid_path(t_data *data)
 {
 	int	x;
 	int	y;
@@ -107,9 +83,9 @@ int	check_valid_path(t_data *data, char *map_path)
 	x = 0;
 	y = 0;
 	i = 0;
-	if (stock_map_copy(data, map_path) == -1)
+	if (copy_map(data) == -1)
 	{
-		ft_printf("Error\nOpening or closing map\n");
+		ft_printf("Error\nCopying map\n");
 		return (0);
 	}
 	data->map_copy_exist = 1;

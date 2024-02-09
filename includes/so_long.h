@@ -6,7 +6,7 @@
 /*   By: nsouchal <nsouchal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 10:28:58 by nsouchal          #+#    #+#             */
-/*   Updated: 2024/02/08 09:51:58 by nsouchal         ###   ########.fr       */
+/*   Updated: 2024/02/09 10:38:30 by nsouchal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	display_map(t_data *data);
 int		close_window(t_data *data, int bool_exit);
 int		final_check(t_data *data, char *map_path);
 char	*remove_newline(char *line);
-int		check_valid_path(t_data *data, char *map_path);
+int		check_valid_path(t_data *data);
 void	free_double_array(char **array, t_data *data, int index);
 char	*remove_newline(char *line);
 void	free_error_image(t_data *data);
